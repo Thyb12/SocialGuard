@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SocialGuard</string>
+    <string name="accessibility_service_label">Ressource Filtrage\n</string>
+    <string name="accessibility_service_description">Ceci est une app pour les gros mots</string>
 </resources>

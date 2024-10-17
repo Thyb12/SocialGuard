@@ -57,8 +57,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-
     // Gson
     implementation(libs.gson)
 
+    // AppCompat
+    implementation(libs.androidx.appcompat)
 }
