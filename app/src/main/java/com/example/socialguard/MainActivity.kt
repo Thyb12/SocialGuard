@@ -1,6 +1,7 @@
 package com.example.socialguard
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.ComponentActivity
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
         if (isGranted) {
             // Permission accordée
         } else {
-            // Gérer le cas où la permission est refusée
+            // Gérer le cas où la permission est refusée (par exemple, montrer un message)
         }
     }
 
@@ -38,6 +39,11 @@ class MainActivity : ComponentActivity() {
 
         viewModel = ViewModelProvider(this, ViewModelFactory(getFiltersUseCase, profanityFilterManager))[FilterViewModel::class.java]
 
+        // Demande la permission de notification au démarrage si nécessaire
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkAndRequestNotificationPermission()
+        }
+
         setContent {
             MainScreen(viewModel = viewModel, openAccessibilitySettings = { openAccessibilitySettings() })
         }
@@ -47,6 +53,14 @@ class MainActivity : ComponentActivity() {
     private fun openAccessibilitySettings() {
         val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
         startActivity(intent)
+    }
+
+    // Vérification et demande de la permission de notifications si nécessaire
+    private fun checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Demande la permission si elle n'a pas encore été accordée
+            requestNotificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 }
 
@@ -59,8 +73,8 @@ fun MainScreen(viewModel: FilterViewModel, openAccessibilitySettings: () -> Unit
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
-        // Ajoute un bouton pour ouvrir les paramètres d'accessibilité
+        // Texte d'information ou autre contenu
+        Text("Bienvenue sur SocialGuard")
         Button(onClick = openAccessibilitySettings) {
             Text("Activer le service d'accessibilité")
         }
